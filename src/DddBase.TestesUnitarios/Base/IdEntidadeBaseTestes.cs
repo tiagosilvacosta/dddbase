@@ -5,6 +5,21 @@ using System;
 namespace DddBase.TestesUnitarios.Base;
 
 /// <summary>
+/// Implementação concreta de IdEntidadeBaseInt para testes.
+/// </summary>
+public record IdEntidadeBaseIntTeste : IdEntidadeBaseInt
+{
+    public IdEntidadeBaseIntTeste(int valor) : base(valor)
+    {
+    }
+
+    public static IdEntidadeBaseIntTeste Criar(int valor) => new(valor);
+    
+    public static implicit operator IdEntidadeBaseIntTeste(int valor) => new(valor);
+    public static implicit operator int(IdEntidadeBaseIntTeste id) => id.ValorInteiro;
+}
+
+/// <summary>
 /// Testes unitários para as classes IdEntidadeBase e IdEntidadeBaseInt.
 /// </summary>
 [TestFixture]
@@ -20,7 +35,7 @@ public class IdEntidadeBaseTestes
         var valor = 123;
 
         // Act
-        var id = new IdEntidadeBaseInt(valor);
+        var id = new IdEntidadeBaseIntTeste(valor);
 
         // Assert
         Assert.That(id.ValorInteiro, Is.EqualTo(valor));
@@ -37,7 +52,7 @@ public class IdEntidadeBaseTestes
     public void IdEntidadeBaseInt_ComValorInvalido_DeveLancarExcecao(int valorInvalido)
     {
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => new IdEntidadeBaseInt(valorInvalido));
+        Assert.Throws<ArgumentException>(() => new IdEntidadeBaseIntTeste(valorInvalido));
     }
 
     /// <summary>
@@ -47,8 +62,8 @@ public class IdEntidadeBaseTestes
     public void IdEntidadeBaseInt_ComMesmosValores_DevemSerIguais()
     {
         // Arrange
-        var id1 = new IdEntidadeBaseInt(123);
-        var id2 = new IdEntidadeBaseInt(123);
+        var id1 = new IdEntidadeBaseIntTeste(123);
+        var id2 = new IdEntidadeBaseIntTeste(123);
 
         // Act & Assert
         Assert.That(id1, Is.EqualTo(id2));
@@ -62,8 +77,8 @@ public class IdEntidadeBaseTestes
     public void IdEntidadeBaseInt_ComValoresDiferentes_DevemSerDiferentes()
     {
         // Arrange
-        var id1 = new IdEntidadeBaseInt(123);
-        var id2 = new IdEntidadeBaseInt(456);
+        var id1 = new IdEntidadeBaseIntTeste(123);
+        var id2 = new IdEntidadeBaseIntTeste(456);
 
         // Act & Assert
         Assert.That(id1, Is.Not.EqualTo(id2));
@@ -79,7 +94,7 @@ public class IdEntidadeBaseTestes
         int valor = 123;
 
         // Act
-        IdEntidadeBaseInt id = valor;
+        IdEntidadeBaseIntTeste id = valor;
 
         // Assert
         Assert.That(id.ValorInteiro, Is.EqualTo(valor));
@@ -92,7 +107,7 @@ public class IdEntidadeBaseTestes
     public void IdEntidadeBaseInt_ConversaoImplicitaParaInteiro_DeveConverter()
     {
         // Arrange
-        var id = new IdEntidadeBaseInt(123);
+        var id = new IdEntidadeBaseIntTeste(123);
 
         // Act
         int valor = id;
@@ -111,7 +126,7 @@ public class IdEntidadeBaseTestes
         var valor = 456;
 
         // Act
-        var id = IdEntidadeBaseInt.Criar(valor);
+        var id = IdEntidadeBaseIntTeste.Criar(valor);
 
         // Assert
         Assert.That(id.ValorInteiro, Is.EqualTo(valor));
@@ -124,14 +139,14 @@ public class IdEntidadeBaseTestes
     public void IdEntidadeBaseInt_ToString_DeveRetornarRepresentacaoCorreta()
     {
         // Arrange
-        var id = new IdEntidadeBaseInt(789);
+        var id = new IdEntidadeBaseIntTeste(789);
 
         // Act
         var resultado = id.ToString();
 
         // Assert
         Assert.That(resultado, Does.Contain("789"));
-        Assert.That(resultado, Does.Contain("IdEntidadeBaseInt"));
+        Assert.That(resultado, Does.Contain("IdEntidadeBaseIntTeste"));
     }
 
     /// <summary>

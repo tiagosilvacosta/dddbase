@@ -5,13 +5,28 @@ using System;
 namespace DddBase.TestesUnitarios.Base;
 
 /// <summary>
+/// Implementação concreta de IdEntidadeBaseInt para testes de EntidadeBase.
+/// </summary>
+public record IdEntidadeIntTeste : IdEntidadeBaseInt
+{
+    public IdEntidadeIntTeste(int valor) : base(valor)
+    {
+    }
+
+    public static IdEntidadeIntTeste Criar(int valor) => new(valor);
+    
+    public static implicit operator IdEntidadeIntTeste(int valor) => new(valor);
+    public static implicit operator int(IdEntidadeIntTeste id) => id.ValorInteiro;
+}
+
+/// <summary>
 /// Implementação concreta de EntidadeBase para testes.
 /// </summary>
-public class EntidadeTeste : EntidadeBase<IdEntidadeBaseInt>
+public class EntidadeTeste : EntidadeBase<IdEntidadeIntTeste>
 {
     public string Nome { get; set; }
 
-    public EntidadeTeste(IdEntidadeBaseInt id, string nome) : base(id)
+    public EntidadeTeste(IdEntidadeIntTeste id, string nome) : base(id)
     {
         Nome = nome;
     }
@@ -26,11 +41,11 @@ public class EntidadeTeste : EntidadeBase<IdEntidadeBaseInt>
 /// <summary>
 /// Implementação de entidade que é raiz de agregado para testes.
 /// </summary>
-public class EntidadeRaizAgregadoTeste : EntidadeBase<IdEntidadeBaseInt>, IRaizAgregado
+public class EntidadeRaizAgregadoTeste : EntidadeBase<IdEntidadeIntTeste>, IRaizAgregado
 {
     public string Descricao { get; set; }
 
-    public EntidadeRaizAgregadoTeste(IdEntidadeBaseInt id, string descricao) : base(id)
+    public EntidadeRaizAgregadoTeste(IdEntidadeIntTeste id, string descricao) : base(id)
     {
         Descricao = descricao;
     }
@@ -55,7 +70,7 @@ public class EntidadeBaseTestes
     public void EntidadeBase_ComIdValido_DeveCriarCorretamente()
     {
         // Arrange
-        var id = new IdEntidadeBaseInt(123);
+        var id = new IdEntidadeIntTeste(123);
         var nome = "Teste";
 
         // Act
@@ -83,7 +98,7 @@ public class EntidadeBaseTestes
     public void EntidadeBase_ComMesmoId_DevemSerIguais()
     {
         // Arrange
-        var id = new IdEntidadeBaseInt(123);
+        var id = new IdEntidadeIntTeste(123);
         var entidade1 = new EntidadeTeste(id, "Nome1");
         var entidade2 = new EntidadeTeste(id, "Nome2");
 
@@ -99,8 +114,8 @@ public class EntidadeBaseTestes
     public void EntidadeBase_ComIdsDiferentes_DevemSerDiferentes()
     {
         // Arrange
-        var id1 = new IdEntidadeBaseInt(123);
-        var id2 = new IdEntidadeBaseInt(456);
+        var id1 = new IdEntidadeIntTeste(123);
+        var id2 = new IdEntidadeIntTeste(456);
         var entidade1 = new EntidadeTeste(id1, "Nome");
         var entidade2 = new EntidadeTeste(id2, "Nome");
 
@@ -115,7 +130,7 @@ public class EntidadeBaseTestes
     public void EntidadeBase_ComparandoComNulo_DeveRetornarFalso()
     {
         // Arrange
-        var id = new IdEntidadeBaseInt(123);
+        var id = new IdEntidadeIntTeste(123);
         var entidade = new EntidadeTeste(id, "Nome");
 
         // Act & Assert
@@ -129,7 +144,7 @@ public class EntidadeBaseTestes
     public void EntidadeBase_ComparandoComTipoDiferente_DeveRetornarFalso()
     {
         // Arrange
-        var id = new IdEntidadeBaseInt(123);
+        var id = new IdEntidadeIntTeste(123);
         var entidade = new EntidadeTeste(id, "Nome");
         var objeto = new object();
 
@@ -144,7 +159,7 @@ public class EntidadeBaseTestes
     public void EntidadeBase_MesmaInstancia_DeveSerIgual()
     {
         // Arrange
-        var id = new IdEntidadeBaseInt(123);
+        var id = new IdEntidadeIntTeste(123);
         var entidade = new EntidadeTeste(id, "Nome");
 
         // Act & Assert
@@ -158,7 +173,7 @@ public class EntidadeBaseTestes
     public void EntidadeBase_ToString_DeveRetornarRepresentacaoCorreta()
     {
         // Arrange
-        var id = new IdEntidadeBaseInt(123);
+        var id = new IdEntidadeIntTeste(123);
         var entidade = new EntidadeTeste(id, "Nome");
 
         // Act
@@ -176,12 +191,12 @@ public class EntidadeBaseTestes
     public void EntidadeRaizAgregado_DeveImplementarInterface()
     {
         // Arrange
-        var id = new IdEntidadeBaseInt(123);
+        var id = new IdEntidadeIntTeste(123);
         var entidade = new EntidadeRaizAgregadoTeste(id, "Descrição");
 
         // Act & Assert
         Assert.That(entidade, Is.InstanceOf<IRaizAgregado>());
-        Assert.That(entidade, Is.InstanceOf<EntidadeBase<IdEntidadeBaseInt>>());
+        Assert.That(entidade, Is.InstanceOf<EntidadeBase<IdEntidadeIntTeste>>());
     }
 
     /// <summary>
@@ -191,10 +206,10 @@ public class EntidadeBaseTestes
     public void EntidadeBase_OperadoresIgualdade_DevemFuncionar()
     {
         // Arrange
-        var id = new IdEntidadeBaseInt(123);
+        var id = new IdEntidadeIntTeste(123);
         var entidade1 = new EntidadeTeste(id, "Nome1");
         var entidade2 = new EntidadeTeste(id, "Nome2");
-        var entidade3 = new EntidadeTeste(new IdEntidadeBaseInt(456), "Nome3");
+        var entidade3 = new EntidadeTeste(new IdEntidadeIntTeste(456), "Nome3");
 
         // Act & Assert
         Assert.That(entidade1 == entidade2, Is.True);

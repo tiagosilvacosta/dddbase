@@ -24,14 +24,14 @@ Este projeto implementa as estruturas fundamentais para projetos que utilizem a 
   - Eliminação de casting desnecessário
 
 ### 🔢 IdEntidadeBaseInt
-- **Tipo**: Implementação concreta de IdEntidadeBase<int>
-- **Função**: Identificador baseado em números inteiros
+- **Tipo**: Record abstrato que herda de IdEntidadeBase<int>
+- **Função**: Base para identificadores baseados em números inteiros
 - **Características**:
   - Herda de IdEntidadeBase<int> para type safety
+  - Deve ser herdado por cada entidade para definir sua própria identidade
   - Validação para valores maiores que zero
-  - Conversões implícitas de/para int
-  - Propriedade ValorInteiro para acesso direto
-  - Método estático para criação
+  - Propriedade ValorInteiro para acesso direto ao valor inteiro
+  - Cada implementação concreta deve fornecer conversões implícitas e métodos estáticos
 
 ### 🏗️ EntidadeBase<TId>
 - **Tipo**: Classe abstrata genérica
@@ -101,15 +101,32 @@ public record Endereco : ObjetoDeValor
 }
 ```
 
-### 2. Criando uma Entidade
+### 2. Criando um Identificador de Entidade
 
 ```csharp
-public class Cliente : EntidadeBase<IdEntidadeBaseInt>, IRaizAgregado
+// Primeiro, crie um identificador específico para sua entidade
+public record IdCliente : IdEntidadeBaseInt
+{
+    public IdCliente(int valor) : base(valor)
+    {
+    }
+
+    public static IdCliente Criar(int valor) => new(valor);
+    
+    public static implicit operator IdCliente(int valor) => new(valor);
+    public static implicit operator int(IdCliente id) => id.ValorInteiro;
+}
+```
+
+### 3. Criando uma Entidade
+
+```csharp
+public class Cliente : EntidadeBase<IdCliente>, IRaizAgregado
 {
     public string Nome { get; set; }
     public Endereco Endereco { get; set; }
 
-    public Cliente(IdEntidadeBaseInt id, string nome, Endereco endereco) : base(id)
+    public Cliente(IdCliente id, string nome, Endereco endereco) : base(id)
     {
         Nome = nome;
         Endereco = endereco;
@@ -124,10 +141,10 @@ public class Cliente : EntidadeBase<IdEntidadeBaseInt>, IRaizAgregado
 }
 ```
 
-### 3. Implementando um Repositório
+### 4. Implementando um Repositório
 
 ```csharp
-public interface IClienteRepositorio : IRepositorio<Cliente, IdEntidadeBaseInt>
+public interface IClienteRepositorio : IRepositorio<Cliente, IdCliente>
 {
     Task<Cliente?> ObterPorNomeAsync(string nome, CancellationToken cancellationToken = default);
 }

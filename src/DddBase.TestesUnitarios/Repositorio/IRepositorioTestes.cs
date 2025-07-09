@@ -12,14 +12,29 @@ using System.Threading.Tasks;
 namespace DddBase.TestesUnitarios.Repositorio;
 
 /// <summary>
+/// Implementação concreta de IdEntidadeBaseInt para testes de repositório.
+/// </summary>
+public record IdProdutoTeste : IdEntidadeBaseInt
+{
+    public IdProdutoTeste(int valor) : base(valor)
+    {
+    }
+
+    public static IdProdutoTeste Criar(int valor) => new(valor);
+    
+    public static implicit operator IdProdutoTeste(int valor) => new(valor);
+    public static implicit operator int(IdProdutoTeste id) => id.ValorInteiro;
+}
+
+/// <summary>
 /// Entidade de exemplo para testes do repositório.
 /// </summary>
-public class ProdutoTeste : EntidadeBase<IdEntidadeBaseInt>, IRaizAgregado
+public class ProdutoTeste : EntidadeBase<IdProdutoTeste>, IRaizAgregado
 {
     public string Nome { get; set; }
     public decimal Preco { get; set; }
 
-    public ProdutoTeste(IdEntidadeBaseInt id, string nome, decimal preco) : base(id)
+    public ProdutoTeste(IdProdutoTeste id, string nome, decimal preco) : base(id)
     {
         Nome = nome;
         Preco = preco;
@@ -38,9 +53,9 @@ public class ProdutoTeste : EntidadeBase<IdEntidadeBaseInt>, IRaizAgregado
 [TestFixture]
 public class IRepositorioTestes
 {
-    private IRepositorio<ProdutoTeste, IdEntidadeBaseInt> _repositorio;
+    private IRepositorio<ProdutoTeste, IdProdutoTeste> _repositorio;
     private ProdutoTeste _produtoExemplo;
-    private IdEntidadeBaseInt _idExemplo;
+    private IdProdutoTeste _idExemplo;
 
     /// <summary>
     /// Configuração inicial para cada teste.
@@ -48,8 +63,8 @@ public class IRepositorioTestes
     [SetUp]
     public void ConfigurarTeste()
     {
-        _repositorio = Substitute.For<IRepositorio<ProdutoTeste, IdEntidadeBaseInt>>();
-        _idExemplo = new IdEntidadeBaseInt(1);
+        _repositorio = Substitute.For<IRepositorio<ProdutoTeste, IdProdutoTeste>>();
+        _idExemplo = new IdProdutoTeste(1);
         _produtoExemplo = new ProdutoTeste(_idExemplo, "Produto Teste", 99.99m);
     }
 
@@ -79,7 +94,7 @@ public class IRepositorioTestes
     public async Task ObterPorIdAsync_ComIdInexistente_DeveRetornarNull()
     {
         // Arrange
-        var idInexistente = new IdEntidadeBaseInt(999);
+        var idInexistente = new IdProdutoTeste(999);
         _repositorio.ObterPorIdAsync(idInexistente, Arg.Any<CancellationToken>())
                    .Returns((ProdutoTeste?)null);
 
@@ -100,7 +115,7 @@ public class IRepositorioTestes
         var produtos = new List<ProdutoTeste>
         {
             _produtoExemplo,
-            new ProdutoTeste(new IdEntidadeBaseInt(2), "Produto 2", 149.99m)
+            new ProdutoTeste(new IdProdutoTeste(2), "Produto 2", 149.99m)
         };
         _repositorio.ObterTodosAsync(Arg.Any<CancellationToken>())
                    .Returns(produtos);
@@ -123,7 +138,7 @@ public class IRepositorioTestes
         Expression<Func<ProdutoTeste, bool>> predicado = p => p.Preco > 100;
         var produtosFiltrados = new List<ProdutoTeste>
         {
-            new ProdutoTeste(new IdEntidadeBaseInt(2), "Produto Caro", 149.99m)
+            new ProdutoTeste(new IdProdutoTeste(2), "Produto Caro", 149.99m)
         };
         
         _repositorio.ObterPorCondicaoAsync(Arg.Any<Expression<Func<ProdutoTeste, bool>>>(), 
@@ -233,7 +248,7 @@ public class IRepositorioTestes
     public async Task ExisteAsync_ComIdInexistente_DeveRetornarFalse()
     {
         // Arrange
-        var idInexistente = new IdEntidadeBaseInt(999);
+        var idInexistente = new IdProdutoTeste(999);
         _repositorio.ExisteAsync(idInexistente, Arg.Any<CancellationToken>())
                    .Returns(false);
 
