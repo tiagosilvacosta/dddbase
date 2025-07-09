@@ -1,9 +1,75 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <!-- Configuração do Target Framework -->
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    
+    <!-- Configuração para Geração de Package -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    
+    <!-- Metadados do Pacote -->
+    <PackageId>Tsc.DddBase</PackageId>
+    <Title>Tsc.DddBase - Estruturas Fundamentais para Domain Driven Design</Title>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <Authors>Tiago Silva Costa</Authors>
+    <Company>Tiago Silva Costa</Company>
+    <Product>Tsc.DddBase</Product>
+    <Description>
+      Biblioteca base para projetos que utilizam Domain Driven Design (DDD). 
+      Fornece estruturas fundamentais como ObjetoDeValor, EntidadeBase, IdEntidadeBase, 
+      IRaizAgregado e IRepositorio, seguindo as melhores práticas de DDD.
+    </Description>
+    <Summary>Estruturas base para implementação de Domain Driven Design em .NET</Summary>
+    <PackageProjectUrl>https://github.com/tiagosilvacosta/dddbase</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tiagosilvacosta/dddbase</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>ddd;domain-driven-design;csharp;dotnet;entity;value-object;aggregate;repository</PackageTags>
+    <PackageReleaseNotes>
+      v1.0.1:
+      - Adicionado arquivo README.md ao pacote NuGet
+      - Melhorada documentação do pacote
+      
+      v1.0.0:
+      - Implementação inicial das estruturas base para DDD
+      - ObjetoDeValor como record abstrato e imutável
+      - IdEntidadeBase genérico para identificadores type-safe
+      - IdEntidadeBaseInt abstrato para identificadores inteiros
+      - EntidadeBase com igualdade baseada em identificador
+      - IRaizAgregado como interface marcador
+      - IRepositorio genérico para acesso a dados
+    </PackageReleaseNotes>
+    <Copyright>Copyright © 2025 Tiago Silva Costa</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    
+    <!-- Configuração de Documentação -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    
+    <!-- Incluir README no pacote -->
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    
+    <!-- Configuração de Símbolos -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    
+    <!-- Source Link para debugging -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
 </Project>

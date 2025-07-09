@@ -1,8 +1,29 @@
-# DddBase - Base para Projetos DDD
+# Tsc.DddBase - Base para Projetos DDD
+
+[![NuGet](https://img.shields.io/nuget/v/Tsc.DddBase.svg)](https://www.nuget.org/packages/Tsc.DddBase/)
+[![Downloads](https://img.shields.io/nuget/dt/Tsc.DddBase.svg)](https://www.nuget.org/packages/Tsc.DddBase/)
+[![License](https://img.shields.io/github/license/usuario/dddbase.svg)](LICENSE)
 
 ## Objetivo
 
 Este projeto implementa as estruturas fundamentais para projetos que utilizem a abordagem Domain Driven Design (DDD), fornecendo uma base sólida e bem testada para o desenvolvimento de aplicações.
+
+## 📦 Instalação
+
+### Via Package Manager Console
+```powershell
+Install-Package Tsc.DddBase
+```
+
+### Via .NET CLI
+```bash
+dotnet add package Tsc.DddBase
+```
+
+### Via PackageReference
+```xml
+<PackageReference Include="Tsc.DddBase" Version="1.0.1" />
+```
 
 ## Estruturas Implementadas
 
@@ -207,6 +228,8 @@ dotnet test --verbosity normal
 
 ## Contribuição
 
+## Contribuição
+
 Este projeto segue as boas práticas definidas nos padrões de codificação da organização. Para contribuir:
 
 1. Mantenha os nomes em português do Brasil
@@ -215,6 +238,25 @@ Este projeto segue as boas práticas definidas nos padrões de codificação da 
 4. Documente o código com comentários XML
 5. Valide todas as entradas de métodos
 
+Veja [CONTRIBUTING.md](CONTRIBUTING.md) para instruções detalhadas de desenvolvimento.
+
+## Publicação NuGet
+
+Para publicar uma nova versão:
+
+```bash
+# 1. Atualize a versão no DddBase.csproj
+# 2. Execute o script de build
+.\build-package.ps1 -Pack -Push -ApiKey "SUA_API_KEY"
+```
+
+## Links Úteis
+
+- 📖 [Guia de Implementação](docs/GuiaImplementacao.md)
+- 🔧 [Desenvolvimento Local](LOCAL-DEVELOPMENT.md)
+- 📝 [Histórico de Mudanças](CHANGELOG.md)
+- 🤝 [Como Contribuir](CONTRIBUTING.md)
+
 ## Licença
 
-Este projeto está sob a licença especificada no arquivo LICENSE.
+Este projeto está sob a [Licença MIT](LICENSE).
