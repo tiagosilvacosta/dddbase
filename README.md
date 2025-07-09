@@ -11,23 +11,26 @@ Este projeto implementa as estruturas fundamentais para projetos que utilizem a 
 - **Função**: Classe base para todos os objetos de valor do domínio
 - **Características**:
   - Imutabilidade garantida pelo uso de records
-  - Igualdade baseada nos valores dos atributos
-  - Implementação automática de GetHashCode e operadores de igualdade
+  - Igualdade, GetHashCode e ToString gerados automaticamente pelo record
+  - Estrutura simples que permite foco na lógica de domínio
 
-### 🆔 IdEntidadeBase
-- **Tipo**: Objeto de valor abstrato
-- **Função**: Base para identidades únicas de entidades
+### 🆔 IdEntidadeBase<T>
+- **Tipo**: Objeto de valor genérico abstrato
+- **Função**: Base para identidades únicas de entidades com type safety
 - **Características**:
+  - Genérico para garantir type safety no valor do identificador
   - Deve ser herdado para definir tipos específicos de identificadores
   - Validação para valores não nulos
-  - Implementação de igualdade baseada no valor do identificador
+  - Eliminação de casting desnecessário
 
 ### 🔢 IdEntidadeBaseInt
-- **Tipo**: Implementação concreta de IdEntidadeBase
+- **Tipo**: Implementação concreta de IdEntidadeBase<int>
 - **Função**: Identificador baseado em números inteiros
 - **Características**:
+  - Herda de IdEntidadeBase<int> para type safety
   - Validação para valores maiores que zero
   - Conversões implícitas de/para int
+  - Propriedade ValorInteiro para acesso direto
   - Método estático para criação
 
 ### 🏗️ EntidadeBase<TId>
@@ -94,13 +97,6 @@ public record Endereco : ObjetoDeValor
         Rua = rua;
         Cidade = cidade;
         CEP = cep;
-    }
-
-    protected override IEnumerable<object?> ObterComponentesDeIgualdade()
-    {
-        yield return Rua;
-        yield return Cidade;
-        yield return CEP;
     }
 }
 ```

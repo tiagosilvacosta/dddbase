@@ -1,6 +1,5 @@
 using DddBase.Base;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace DddBase.TestesUnitarios.Base;
 
@@ -18,13 +17,6 @@ public record EnderecoTeste : ObjetoDeValor
         Rua = rua;
         Cidade = cidade;
         CEP = cep;
-    }
-
-    protected override IEnumerable<object?> ObterComponentesDeIgualdade()
-    {
-        yield return Rua;
-        yield return Cidade;
-        yield return CEP;
     }
 }
 

@@ -1,37 +1,27 @@
-using System.Collections.Generic;
-
 namespace DddBase.Base;
 
 /// <summary>
 /// Classe abstrata que representa o identificador base de uma entidade.
 /// Esta classe deve ser herdada para definir tipos específicos de identificadores.
 /// </summary>
-public abstract record IdEntidadeBase : ObjetoDeValor
+/// <typeparam name="T">Tipo do valor do identificador</typeparam>
+public abstract record IdEntidadeBase<T> : ObjetoDeValor
 {
     /// <summary>
     /// Valor do identificador.
     /// </summary>
-    public object Valor { get; protected init; }
+    public T Valor { get; protected init; }
 
     /// <summary>
     /// Inicializa uma nova instância do identificador base.
     /// </summary>
     /// <param name="valor">Valor do identificador</param>
-    protected IdEntidadeBase(object valor)
+    protected IdEntidadeBase(T valor)
     {
         if (valor == null)
             throw new ArgumentNullException(nameof(valor), "O valor do identificador não pode ser nulo");
 
         Valor = valor;
-    }
-
-    /// <summary>
-    /// Obtém os componentes de igualdade do identificador.
-    /// </summary>
-    /// <returns>Enumerable com os componentes que definem a igualdade</returns>
-    protected override IEnumerable<object?> ObterComponentesDeIgualdade()
-    {
-        yield return Valor;
     }
 
     /// <summary>

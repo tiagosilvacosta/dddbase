@@ -5,12 +5,12 @@ namespace DddBase.Base;
 /// Entidades possuem identidade única e podem ser mutáveis.
 /// </summary>
 /// <typeparam name="TId">Tipo do identificador da entidade</typeparam>
-public abstract class EntidadeBase<TId> where TId : IdEntidadeBase
+public abstract class EntidadeBase<TId> where TId : ObjetoDeValor
 {
     /// <summary>
     /// Identificador único da entidade.
     /// </summary>
-    public TId Id { get; protected set; }
+    public TId Id { get; protected set; } = default!;
 
     /// <summary>
     /// Inicializa uma nova instância da entidade base.

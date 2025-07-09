@@ -3,12 +3,12 @@ namespace DddBase.Base;
 /// <summary>
 /// Implementação concreta de um identificador de entidade baseado em inteiro.
 /// </summary>
-public record IdEntidadeBaseInt : IdEntidadeBase
+public record IdEntidadeBaseInt : IdEntidadeBase<int>
 {
     /// <summary>
     /// Valor inteiro do identificador.
     /// </summary>
-    public int ValorInteiro => (int)Valor;
+    public int ValorInteiro => Valor;
 
     /// <summary>
     /// Inicializa uma nova instância do identificador inteiro.

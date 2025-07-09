@@ -147,7 +147,7 @@ public class IdEntidadeBaseTestes
     /// <summary>
     /// Implementação concreta de IdEntidadeBase para testes.
     /// </summary>
-    private record IdEntidadeTesteConcreta : IdEntidadeBase
+    private record IdEntidadeTesteConcreta : IdEntidadeBase<object>
     {
         public IdEntidadeTesteConcreta(object valor) : base(valor)
         {

@@ -30,9 +30,9 @@ Um agregado é um conjunto de entidades que são tratadas como uma unidade para 
 
 ```csharp
 // Para identificadores baseados em GUID
-public record ClienteId : IdEntidadeBase
+public record ClienteId : IdEntidadeBase<Guid>
 {
-    public Guid ValorGuid => (Guid)Valor;
+    public Guid ValorGuid => Valor;
 
     public ClienteId(Guid valor) : base(valor)
     {
@@ -47,9 +47,9 @@ public record ClienteId : IdEntidadeBase
 }
 
 // Para identificadores baseados em string
-public record ProdutoSku : IdEntidadeBase
+public record ProdutoSku : IdEntidadeBase<string>
 {
-    public string ValorString => (string)Valor;
+    public string ValorString => Valor;
 
     public ProdutoSku(string valor) : base(valor)
     {
@@ -58,8 +58,6 @@ public record ProdutoSku : IdEntidadeBase
         
         if (valor.Length > 20)
             throw new ArgumentException("SKU não pode ter mais de 20 caracteres", nameof(valor));
-    }
-
     public static implicit operator ProdutoSku(string valor) => new(valor);
     public static implicit operator string(ProdutoSku sku) => sku.ValorString;
 }
@@ -83,12 +81,6 @@ public record Money : ObjetoDeValor
 
         Valor = valor;
         Moeda = moeda.ToUpper();
-    }
-
-    protected override IEnumerable<object?> ObterComponentesDeIgualdade()
-    {
-        yield return Valor;
-        yield return Moeda;
     }
 
     public Money Somar(Money outraMoeda)
@@ -115,11 +107,6 @@ public record Email : ObjetoDeValor
             throw new ArgumentException("Email inválido", nameof(valor));
 
         Valor = valor.ToLowerInvariant();
-    }
-
-    protected override IEnumerable<object?> ObterComponentesDeIgualdade()
-    {
-        yield return Valor;
     }
 
     private static bool IsValidEmail(string email)

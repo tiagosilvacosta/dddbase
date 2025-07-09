@@ -11,7 +11,7 @@ namespace DddBase.Repositorio;
 /// <typeparam name="TId">Tipo do identificador da entidade</typeparam>
 public interface IRepositorio<TEntidade, TId> 
     where TEntidade : EntidadeBase<TId>, IRaizAgregado
-    where TId : IdEntidadeBase
+    where TId : ObjetoDeValor
 {
     /// <summary>
     /// Obtém uma entidade pelo seu identificador de forma assíncrona.
